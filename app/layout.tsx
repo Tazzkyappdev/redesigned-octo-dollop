@@ -41,11 +41,6 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Tazzky - Contrata servicios confiables en minutos',
     description: 'Encuentra cualquier servicio que necesites de forma rápida, segura y sin comisiones durante la beta.'
-  },
-  icons: {
-    icon: '/icon.png?v=3',
-    apple: '/apple-icon.png?v=3',
-    shortcut: '/icon.png?v=3'
   }
 }
 
