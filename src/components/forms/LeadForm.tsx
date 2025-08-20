@@ -16,7 +16,7 @@ const leadFormSchema = z.object({
   interest_type: z.enum(['client', 'professional']),
   category: z.string().optional(),
   message: z.string().optional(),
-  notification_preference: z.boolean().default(true),
+  notification_preference: z.boolean(),
   terms_accepted: z.boolean().refine(val => val === true, 'Debes aceptar los términos')
 })
 
