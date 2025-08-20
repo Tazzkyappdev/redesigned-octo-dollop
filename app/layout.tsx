@@ -43,9 +43,9 @@ export const metadata: Metadata = {
     description: 'Encuentra cualquier servicio que necesites de forma rápida, segura y sin comisiones durante la beta.'
   },
   icons: {
-    icon: '/icon.png?v=2',
-    apple: '/apple-icon.png?v=2',
-    shortcut: '/icon.png?v=2'
+    icon: '/icon.png?v=3',
+    apple: '/apple-icon.png?v=3',
+    shortcut: '/icon.png?v=3'
   }
 }
 
