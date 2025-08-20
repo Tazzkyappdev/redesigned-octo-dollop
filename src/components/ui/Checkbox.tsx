@@ -2,7 +2,10 @@ import React, { forwardRef } from 'react'
 import { cn } from '../../lib/utils'
 import { Check } from 'lucide-react'
 
-interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
+// Evitar conflicto con InputHTMLAttributes.size:number
+type BaseInputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'>
+
+interface CheckboxProps extends BaseInputProps {
   label?: string
   error?: string
   helperText?: string
