@@ -7,7 +7,8 @@ interface SelectOption {
   label: string
 }
 
-interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'onChange'> {
+// Evitar conflicto con SelectHTMLAttributes.size:number y permitir onChange de RHF
+interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'onChange' | 'size'> {
   label?: string
   error?: string
   helperText?: string
