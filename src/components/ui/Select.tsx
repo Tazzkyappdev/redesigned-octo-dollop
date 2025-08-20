@@ -15,7 +15,8 @@ interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>
   placeholder?: string
   variant?: 'default' | 'error' | 'success'
   size?: 'sm' | 'md' | 'lg'
-  onChange?: (value: string) => void
+  // Permite tanto un handler de valor como el handler de evento (compatibilidad con react-hook-form register)
+  onChange?: ((value: string) => void) | React.ChangeEventHandler<HTMLSelectElement>
   children?: React.ReactNode
 }
 
@@ -50,9 +51,15 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(({
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (onChange) {
-      onChange(e.target.value)
-    }
+    if (!onChange) return
+    // Intentar como handler de evento (react-hook-form)
+    try {
+      (onChange as React.ChangeEventHandler<HTMLSelectElement>)(e)
+    } catch {}
+    // Intentar como handler de valor (API del componente)
+    try {
+      (onChange as (value: string) => void)(e.target.value)
+    } catch {}
   }
 
   return (
