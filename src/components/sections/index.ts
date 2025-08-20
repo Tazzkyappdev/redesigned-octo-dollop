@@ -1,0 +1,6 @@
+export { Hero } from './Hero'
+export { Benefits } from './Benefits'
+export { Process } from './Process'
+export { Steps } from './Steps'
+export { EarlyAccess } from './EarlyAccess'
+export { Conversion } from './Conversion'
