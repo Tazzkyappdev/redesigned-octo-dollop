@@ -106,7 +106,7 @@ export default function ClientesHome() {
               </Link>
             </motion.div>
 
-            {/* CTA con iconos de tiendas */}
+            {/* CTA para profesionales */}
             <motion.div
               className="flex items-center gap-3 sm:gap-4"
               initial={{ opacity: 0, x: 20 }}
