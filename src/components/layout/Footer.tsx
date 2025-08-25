@@ -40,9 +40,9 @@ export const Footer = () => {
               Tazzky © {currentYear}
             </div>
             
-            {/* Dirección */}
-            <div className="text-gray-600 text-sm space-y-1">
-              <div>Tuxtla Gutiérrez, Chiapas, México.</div>
+            {/* Disponibilidad */}
+            <div className="text-gray-600 text-sm">
+              Próximamente en México
             </div>
             
             {/* Política legal */}
