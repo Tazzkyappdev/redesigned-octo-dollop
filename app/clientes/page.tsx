@@ -113,11 +113,6 @@ export default function ClientesHome() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              {/* Texto a la izquierda del botón */}
-              <div className="hidden sm:flex flex-col leading-tight text-gray-600 text-xs sm:text-sm text-right sm:text-left">
-                <span>Próximamente en</span>
-                <span className="font-semibold text-gray-900">Tuxtla Gutierrez y alrededores</span>
-              </div>
               <Link href="/profesionales" className="inline-block" aria-label="Ir a la página para profesionales">
                 <Button
                   variant="primary"
