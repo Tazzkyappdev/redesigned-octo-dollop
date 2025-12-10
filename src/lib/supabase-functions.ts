@@ -7,6 +7,37 @@ import type {
 } from './supabase'
 
 // =====================================================
+// TIPOS PARA ERROR HANDLING
+// =====================================================
+
+interface PostgrestError {
+  code?: string
+  status?: number
+  message?: string
+  details?: string | null
+}
+
+interface NormalizedError {
+  code: string
+  message: string
+  details: string | null
+}
+
+interface ProfessionalRegistrationData {
+  first_name: string
+  last_name: string
+  email: string
+  phone: string
+  profession: string
+  experience_years: number
+  bio?: string
+  service_categories?: string[]
+  hourly_rate?: number
+  availability?: string
+  [key: string]: unknown
+}
+
+// =====================================================
 // FUNCIONES PARA LANDING LEADS
 // =====================================================
 
@@ -18,10 +49,10 @@ export async function createLandingLead(data: Omit<LandingLead, 'id' | 'created_
       .insert([data])
 
     if (error) {
-      const normalized = {
-        code: (error as any)?.code ?? (error as any)?.status ?? 'unknown',
-        message: (error as any)?.message ?? 'Unknown error',
-        details: (error as any)?.details ?? null
+      const normalized: NormalizedError = {
+        code: (error as PostgrestError)?.code ?? (error as PostgrestError)?.status?.toString() ?? 'unknown',
+        message: (error as PostgrestError)?.message ?? 'Unknown error',
+        details: (error as PostgrestError)?.details ?? null
       }
       console.error('Error creating landing lead:', normalized)
       throw normalized
@@ -65,10 +96,10 @@ export async function createProfessionalApplication(data: Omit<ProfessionalAppli
       .insert([data])
 
     if (error) {
-      const normalized = {
-        code: (error as any)?.code ?? (error as any)?.status ?? 'unknown',
-        message: (error as any)?.message ?? 'Unknown error',
-        details: (error as any)?.details ?? null
+      const normalized: NormalizedError = {
+        code: (error as PostgrestError)?.code ?? (error as PostgrestError)?.status?.toString() ?? 'unknown',
+        message: (error as PostgrestError)?.message ?? 'Unknown error',
+        details: (error as PostgrestError)?.details ?? null
       }
       console.error('Error creating professional application:', normalized)
       throw normalized
@@ -373,17 +404,17 @@ export function generateSlug(text: string) {
 // FUNCIONES PARA REGISTRO DE PROFESIONALES
 // =====================================================
 
-export async function createProfessionalRegistration(data: Omit<any, 'id' | 'created_at' | 'updated_at'>) {
+export async function createProfessionalRegistration(data: Omit<ProfessionalRegistrationData, 'id' | 'created_at' | 'updated_at'>) {
   try {
     const { error } = await supabase
       .from('professional_registrations')
       .insert([{ ...data, status: 'pending' }])
 
     if (error) {
-      const normalized = {
-        code: (error as any)?.code ?? (error as any)?.status ?? 'unknown',
-        message: (error as any)?.message ?? 'Unknown error',
-        details: (error as any)?.details ?? null
+      const normalized: NormalizedError = {
+        code: (error as PostgrestError)?.code ?? (error as PostgrestError)?.status?.toString() ?? 'unknown',
+        message: (error as PostgrestError)?.message ?? 'Unknown error',
+        details: (error as PostgrestError)?.details ?? null
       }
       console.error('Error creating professional registration:', normalized)
       throw normalized
