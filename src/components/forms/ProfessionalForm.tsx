@@ -211,12 +211,12 @@ export const ProfessionalForm = () => {
 
         {/* Años de experiencia */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-white mb-2">
             Años de experiencia
           </label>
           <select
             {...register('experience_years', { valueAsNumber: true })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-900 bg-white"
           >
             <option value="">Selecciona años de experiencia</option>
             <option value="0">Menos de 1 año</option>
@@ -254,7 +254,7 @@ export const ProfessionalForm = () => {
 
         {/* Disponibilidad */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-white mb-2">
             Disponibilidad
           </label>
           <div className="grid grid-cols-2 gap-3">
@@ -265,7 +265,7 @@ export const ProfessionalForm = () => {
                 {...register('availability')}
                 className="mr-2"
               />
-              <span className="text-sm">Tiempo parcial</span>
+              <span className="text-sm text-gray-900">Tiempo parcial</span>
             </label>
             <label className="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
               <input
@@ -274,7 +274,7 @@ export const ProfessionalForm = () => {
                 {...register('availability')}
                 className="mr-2"
               />
-              <span className="text-sm">Tiempo completo</span>
+              <span className="text-sm text-gray-900">Tiempo completo</span>
             </label>
           </div>
           {errors.availability && (
