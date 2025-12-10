@@ -368,3 +368,30 @@ export function generateSlug(text: string) {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '')
 }
+
+// =====================================================
+// FUNCIONES PARA REGISTRO DE PROFESIONALES
+// =====================================================
+
+export async function createProfessionalRegistration(data: Omit<any, 'id' | 'created_at' | 'updated_at'>) {
+  try {
+    const { error } = await supabase
+      .from('professional_registrations')
+      .insert([{ ...data, status: 'pending' }])
+
+    if (error) {
+      const normalized = {
+        code: (error as any)?.code ?? (error as any)?.status ?? 'unknown',
+        message: (error as any)?.message ?? 'Unknown error',
+        details: (error as any)?.details ?? null
+      }
+      console.error('Error creating professional registration:', normalized)
+      throw normalized
+    }
+
+    return { success: true, message: 'Registro enviado correctamente' }
+  } catch (error) {
+    console.error('Error in createProfessionalRegistration:', error)
+    return { success: false, error }
+  }
+}
