@@ -1,9 +1,7 @@
 import { supabase } from './supabase'
 import type { 
   LandingLead, 
-  ProfessionalApplication, 
-  ServiceCategory, 
-  Professional 
+  ProfessionalApplication
 } from './supabase'
 
 // =====================================================
