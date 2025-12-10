@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { ProfessionalRegistrationForm } from '@/src/components/forms'
 import { Footer } from '@/src/components/layout'
 import { ChevronDown } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 export default function ProfesionalesRegistroPage() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null)
@@ -154,38 +155,57 @@ export default function ProfesionalesRegistroPage() {
         {/* Por qué unirte a Tazzky */}
         <section className="container mx-auto px-4 py-20">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-4xl font-bold text-white mb-16 text-center">¿Por qué unirte a Tazzky?</h2>
+            <motion.h2 
+              className="text-4xl font-bold text-white mb-16 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              ¿Por qué unirte a Tazzky?
+            </motion.h2>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
               {[
                 {
                   title: 'Clientes sin invertir en publicidad',
-                  icon: '👥'
+                  icon: '/images/1.svg'
                 },
                 {
                   title: 'Pagos protegidos',
-                  icon: '🔒'
+                  icon: '/images/2.svg'
                 },
                 {
                   title: 'Mayor formalidad',
-                  icon: '📋'
+                  icon: '/images/3.svg'
                 },
                 {
                   title: 'Reputación digital',
-                  icon: '⭐'
+                  icon: '/images/4.svg'
                 },
                 {
                   title: 'Soporte directo',
-                  icon: '💬'
+                  icon: '/images/5.svg'
                 }
               ].map((item, i) => (
-                <div 
+                <motion.div 
                   key={i}
-                  className="bg-gradient-to-br from-slate-800/70 to-slate-700/40 border border-lime-400/30 rounded-2xl p-6 text-center hover:border-lime-400/60 hover:shadow-lg hover:shadow-lime-400/20 transition"
+                  className="bg-gradient-to-br from-slate-800/70 to-slate-700/40 border border-lime-400/30 rounded-2xl p-6 text-center hover:border-lime-400/60 hover:shadow-lg hover:shadow-lime-400/20 transition cursor-pointer"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  whileHover={{ translateY: -8, scale: 1.05 }}
                 >
-                  <div className="text-5xl mb-4">{item.icon}</div>
+                  <motion.div 
+                    className="w-20 h-20 mx-auto mb-4 flex items-center justify-center"
+                    whileHover={{ rotate: 10, scale: 1.1 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                  >
+                    <img src={item.icon} alt={item.title} className="w-full h-full object-contain" />
+                  </motion.div>
                   <h3 className="text-white font-bold text-lg">{item.title}</h3>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
