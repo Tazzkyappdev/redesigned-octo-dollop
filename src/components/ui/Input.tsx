@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useId } from 'react'
 import { cn } from '../../lib/utils'
 
 // Evitar conflicto con InputHTMLAttributes.size:number
@@ -22,7 +22,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
   id,
   ...props
 }, ref) => {
-  const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`
+  const generatedId = useId()
+  const inputId = id || generatedId
   
   const baseClasses = 'w-full border rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed text-gray-900 placeholder:text-gray-400 bg-white'
   

@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useId } from 'react'
 import { cn } from '../../lib/utils'
 
 interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -21,7 +21,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   id,
   ...props
 }, ref) => {
-  const textareaId = id || `textarea-${Math.random().toString(36).substr(2, 9)}`
+  const generatedId = useId()
+  const textareaId = id || generatedId
   
   const baseClasses = 'w-full border rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed resize-vertical text-gray-900 placeholder:text-gray-400 bg-white'
   

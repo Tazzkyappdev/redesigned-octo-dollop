@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useId } from 'react'
 import { cn } from '../../lib/utils'
 import { ChevronDown } from 'lucide-react'
 
@@ -35,7 +35,8 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(({
   children,
   ...props
 }, ref) => {
-  const selectId = id || `select-${Math.random().toString(36).substr(2, 9)}`
+  const generatedId = useId()
+  const selectId = id || generatedId
   
   const baseClasses = 'w-full border rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed appearance-none bg-white text-gray-900'
   

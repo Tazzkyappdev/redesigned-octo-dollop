@@ -226,7 +226,7 @@ export const ProfessionalRegistrationForm = () => {
 
 	const { register, handleSubmit, formState: { errors }, reset, watch } = useForm<FormData>({
 		resolver: zodResolver(schema),
-		mode: 'onChange',
+		mode: 'onBlur',
 	} as any)
 
 	const serviceType = watch('service_type')
@@ -493,30 +493,47 @@ export const ProfessionalRegistrationForm = () => {
 					</div>
 				)}
 
-				{section === 5 && (
-					<div className="bg-gradient-to-br from-slate-800/50 to-slate-700/30 border border-slate-700/30 rounded-2xl p-8 backdrop-blur-sm">
-						<div className="flex items-center mb-6">
-							<div className="w-12 h-12 rounded-lg bg-gradient-to-r from-lime-400 to-green-500 flex items-center justify-center text-2xl mr-4">
-								<CheckCircle className="w-6 h-6 text-slate-950" />
-							</div>
-							<h2 className="text-2xl font-bold text-white">Aceptación Legal</h2>
+			{section === 5 && (
+				<div className="bg-gradient-to-br from-slate-800/50 to-slate-700/30 border border-slate-700/30 rounded-2xl p-8 backdrop-blur-sm">
+					<div className="flex items-center mb-6">
+						<div className="w-12 h-12 rounded-lg bg-gradient-to-r from-lime-400 to-green-500 flex items-center justify-center text-2xl mr-4">
+							<CheckCircle className="w-6 h-6 text-slate-950" />
 						</div>
-						<p className="text-slate-300 mb-6">Últimos pasos para activar tu cuenta</p>
-						<div className="space-y-4">
-							<Checkbox label="Acepto los Términos y Condiciones de Tazzky *" {...register('terms_accepted')} />
-							{errors.terms_accepted && <p className="text-red-400 text-sm">{getErrorMessage(errors.terms_accepted)}</p>}
-							<Checkbox label="Acepto que todos los pagos se gestionen únicamente por Tazzky *" {...register('payment_only_tazzky')} />
-							{errors.payment_only_tazzky && <p className="text-red-400 text-sm">{getErrorMessage(errors.payment_only_tazzky)}</p>}
-							<Checkbox label="Entiendo que está prohibido cobrar por fuera de la plataforma *" {...register('no_off_platform_payment')} />
-							{errors.no_off_platform_payment && <p className="text-red-400 text-sm">{getErrorMessage(errors.no_off_platform_payment)}</p>}
-							<div className="bg-red-500/10 border border-red-500/40 rounded-lg p-4 mt-4">
-								<p className="text-sm text-red-300">🛑 <strong>Importante:</strong> Cobrar por fuera de Tazzky viola nuestros términos y resultará en suspensión permanente.</p>
-							</div>
+						<h2 className="text-2xl font-bold text-white">Aceptación Legal</h2>
+					</div>
+					<p className="text-slate-300 mb-6">Últimos pasos para activar tu cuenta</p>
+					
+					{/* Link a términos y condiciones */}
+					<div className="bg-lime-400/10 border border-lime-400/30 rounded-lg p-4 mb-6">
+						<p className="text-slate-200 mb-3">
+							📄 Antes de continuar, es importante que revises nuestros términos y condiciones del programa piloto:
+						</p>
+						<a 
+							href="/terminos-condiciones-piloto" 
+							target="_blank" 
+							rel="noopener noreferrer"
+							className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-lime-400 to-green-500 text-slate-950 font-semibold rounded-lg hover:shadow-lg hover:shadow-lime-400/50 transition"
+						>
+							Ver Términos y Condiciones del Programa Piloto
+							<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+							</svg>
+						</a>
+					</div>
+
+					<div className="space-y-4">
+						<Checkbox label="Acepto los Términos y Condiciones del Programa Piloto de Tazzky *" {...register('terms_accepted')} />
+						{errors.terms_accepted && <p className="text-red-400 text-sm">{getErrorMessage(errors.terms_accepted)}</p>}
+						<Checkbox label="Acepto que todos los pagos se gestionen únicamente por Tazzky *" {...register('payment_only_tazzky')} />
+						{errors.payment_only_tazzky && <p className="text-red-400 text-sm">{getErrorMessage(errors.payment_only_tazzky)}</p>}
+						<Checkbox label="Entiendo que está prohibido cobrar por fuera de la plataforma *" {...register('no_off_platform_payment')} />
+						{errors.no_off_platform_payment && <p className="text-red-400 text-sm">{getErrorMessage(errors.no_off_platform_payment)}</p>}
+						<div className="bg-red-500/10 border border-red-500/40 rounded-lg p-4 mt-4">
+							<p className="text-sm text-red-300">🛑 <strong>Importante:</strong> Cobrar por fuera de Tazzky viola nuestros términos y resultará en suspensión permanente.</p>
 						</div>
 					</div>
-				)}
-
-				{error && (
+				</div>
+			)}				{error && (
 					<div className="bg-red-500/20 border border-red-500/50 rounded-lg p-4">
 						<p className="text-red-300">{error}</p>
 					</div>
