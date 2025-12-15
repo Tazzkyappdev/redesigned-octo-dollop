@@ -54,14 +54,13 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(({
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (!onChange) return
-    // Intentar como handler de evento (react-hook-form)
-    try {
-      (onChange as React.ChangeEventHandler<HTMLSelectElement>)(e)
-    } catch {}
-    // Intentar como handler de valor (API del componente)
-    try {
-      (onChange as (value: string) => void)(e.target.value)
-    } catch {}
+    
+    // Verificar que el evento sea válido
+    if (!e?.target) return
+    
+    // Solo llamar onChange una vez con el evento completo
+    // React Hook Form lo maneja correctamente
+    onChange(e as any)
   }
 
   return (

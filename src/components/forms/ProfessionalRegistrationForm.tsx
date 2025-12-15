@@ -19,7 +19,7 @@ const serviceCategories = [
 			{ value: 'digital-artes-producto-gaming', label: 'Producto y gaming' },
 			{ value: 'digital-artes-visual', label: 'Diseño visual' },
 			{ value: 'digital-artes-impresion', label: 'Diseño de impresión' },
-			{ value: 'digital-artes-packing', label: 'Packing y portadas' },
+			{ value: 'digital-artes-packing', label: 'Packaging y portadas' },
 			{ value: 'digital-artes-3d', label: 'Diseño 3D' },
 			{ value: 'digital-artes-marketing', label: 'Diseño de marketing' },
 			{ value: 'digital-artes-moda', label: 'Diseño de moda y merchandise' },
@@ -31,9 +31,10 @@ const serviceCategories = [
 			{ value: 'digital-tech-web', label: 'Sitios web' },
 			{ value: 'digital-tech-apps', label: 'Desarrollo de aplicaciones' },
 			{ value: 'digital-tech-software', label: 'Desarrollo de software' },
-			{ value: 'digital-tech-mobile', label: 'Apps móviles' },
+			{ value: 'digital-tech-mobile', label: 'Apps Móviles' },
 			{ value: 'digital-tech-plataformas', label: 'Plataformas de sitios web' },
 			{ value: 'digital-tech-soporte', label: 'Soporte y ciberseguridad' },
+			{ value: 'digital-tech-blockchain', label: 'Blockchain y criptomonedas' },
 		],
 	},
 	{
@@ -55,7 +56,7 @@ const serviceCategories = [
 			{ value: 'digital-video-social', label: 'Videos sociales y de marketing' },
 			{ value: 'digital-video-explicativos', label: 'Videos explicativos' },
 			{ value: 'digital-video-productos', label: 'Videos de productos' },
-			{ value: 'digital-video-otros', label: 'Otros (video y animación)' },
+			{ value: 'digital-video-otros', label: 'Otros' },
 		],
 	},
 	{
@@ -66,7 +67,7 @@ const serviceCategories = [
 			{ value: 'digital-escritura-traduccion', label: 'Traducción y transcripción' },
 			{ value: 'digital-escritura-negocios', label: 'Contenido para negocios y marketing' },
 			{ value: 'digital-escritura-profesional', label: 'Redacción profesional' },
-			{ value: 'digital-escritura-otros', label: 'Otros (escritura y traducción)' },
+			{ value: 'digital-escritura-otros', label: 'Otros' },
 		],
 	},
 	{
@@ -82,12 +83,10 @@ const serviceCategories = [
 	{
 		group: 'DIGITALES · Negocios',
 		options: [
-			{ value: 'digital-negocios-formacion', label: 'Formación y crecimiento empresarial' },
-			{ value: 'digital-negocios-administrativo', label: 'Administrativo general' },
-			{ value: 'digital-negocios-legales', label: 'Servicios legales' },
-			{ value: 'digital-negocios-finanzas', label: 'Cuentas y finanzas' },
+			{ value: 'digital-negocios-constitucion', label: 'Constitución y consultoría' },
+			{ value: 'digital-negocios-operaciones', label: 'Operaciones y gestión' },
+			{ value: 'digital-negocios-legales', label: 'Servicios jurídicos' },
 			{ value: 'digital-negocios-ventas', label: 'Ventas y atención al cliente' },
-			{ value: 'digital-negocios-otros', label: 'Otros (negocios)' },
 		],
 	},
 	{
@@ -96,10 +95,10 @@ const serviceCategories = [
 			{ value: 'fisicos-salud-medica', label: 'Atención médica a domicilio' },
 			{ value: 'fisicos-salud-enfermeria', label: 'Enfermería' },
 			{ value: 'fisicos-salud-adultos', label: 'Cuidado de adultos mayores' },
-			{ value: 'fisicos-salud-optometria', label: 'Optometría' },
 			{ value: 'fisicos-salud-masajes', label: 'Masajes terapéuticos' },
 			{ value: 'fisicos-salud-psicologia', label: 'Psicología' },
 			{ value: 'fisicos-salud-nutricion', label: 'Nutrición' },
+			{ value: 'fisicos-salud-fisioterapia', label: 'Fisioterapia y rehabilitación' },
 		],
 	},
 	{
@@ -115,11 +114,14 @@ const serviceCategories = [
 		],
 	},
 	{
-		group: 'FÍSICOS · Reparación de autos y motos',
+		group: 'FÍSICOS · Reparación de automóviles y motos',
 		options: [
 			{ value: 'fisicos-autos-mecanica', label: 'Mecánica general' },
 			{ value: 'fisicos-autos-chapa-pintura', label: 'Chapa y pintura' },
 			{ value: 'fisicos-autos-preventivo', label: 'Mantenimiento preventivo' },
+			{ value: 'fisicos-autos-motos', label: 'Mecánica de motocicletas' },
+			{ value: 'fisicos-autos-llantas', label: 'Llantas y servicios rápidos' },
+			{ value: 'fisicos-autos-estetica', label: 'Estética y detallado vehicular' },
 		],
 	},
 	{
@@ -128,6 +130,7 @@ const serviceCategories = [
 			{ value: 'fisicos-belleza-peluqueria', label: 'Peluquería' },
 			{ value: 'fisicos-belleza-estetica', label: 'Estética facial y corporal' },
 			{ value: 'fisicos-belleza-manicura', label: 'Manicura y pedicura' },
+			{ value: 'fisicos-belleza-barberia', label: 'Barbería' },
 		],
 	},
 	{
@@ -136,6 +139,7 @@ const serviceCategories = [
 			{ value: 'fisicos-eventos-organizacion', label: 'Organización de eventos' },
 			{ value: 'fisicos-eventos-alquiler', label: 'Alquiler de equipos' },
 			{ value: 'fisicos-eventos-animacion', label: 'Animación' },
+			{ value: 'fisicos-eventos-catering', label: 'Catering y banquetes' },
 		],
 	},
 	{
@@ -143,6 +147,8 @@ const serviceCategories = [
 		options: [
 			{ value: 'fisicos-mascotas-viajes', label: 'Cuidado durante viajes' },
 			{ value: 'fisicos-mascotas-veterinario', label: 'Cuidado veterinario a domicilio' },
+			{ value: 'fisicos-mascotas-paseo', label: 'Paseo y ejercicio' },
+			{ value: 'fisicos-mascotas-estetica', label: 'Estética y grooming' },
 		],
 	},
 	{
