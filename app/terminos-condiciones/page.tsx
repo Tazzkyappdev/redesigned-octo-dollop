@@ -312,3 +312,5 @@ export default function TerminosCondiciones() {
     </Suspense>
   )
 }
+
+export const dynamic = 'force-dynamic'
