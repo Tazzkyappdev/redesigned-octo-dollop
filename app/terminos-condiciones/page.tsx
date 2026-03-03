@@ -1,11 +1,11 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
 
-export default function TerminosCondiciones() {
+function TerminosCondicionesContent() {
   const searchParams = useSearchParams()
   const [activeTab, setActiveTab] = useState('terminos')
 
@@ -298,5 +298,17 @@ export default function TerminosCondiciones() {
         </div>
       </main>
     </div>
+  )
+}
+
+export default function TerminosCondiciones() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center">
+        <div className="text-white text-xl">Cargando...</div>
+      </div>
+    }>
+      <TerminosCondicionesContent />
+    </Suspense>
   )
 }
