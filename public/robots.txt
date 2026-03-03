@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /profesionales-registro
+
+User-agent: *
+Disallow: /profesionales-registro/
