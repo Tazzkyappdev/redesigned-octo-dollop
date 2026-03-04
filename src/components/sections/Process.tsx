@@ -2,24 +2,33 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { CheckCircle } from 'lucide-react'
+import { Package, Lock, Banknote } from 'lucide-react'
+import { Poppins } from 'next/font/google'
 
-const tools = [
+const poppins = Poppins({
+  weight: ['400', '600', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+})
+
+const steps = [
   {
-    icon: CheckCircle,
-    title: 'Promociona tu negocio en un mercado global y local'
+    number: '1',
+    title: 'Publicas tu servicio',
+    icon: Package,
+    description: 'Tú defines el precio fijo o por paquetes, los tiempos de entrega y lo que incluye. Creas tu oferta completa para que los clientes lleguen sin perder tiempo enviando cotizaciones.'
   },
   {
-    icon: CheckCircle,
-    title: 'Envía cotizaciones y programa trabajos'
+    number: '2',
+    title: 'El cliente contrata y el dinero se retiene',
+    icon: Lock,
+    description: 'El cliente acepta tus condiciones y paga por adelantado. Comenzas a trabajar con la certeza absoluta de que tus fondos ya están asegurados.'
   },
   {
-    icon: CheckCircle,
-    title: 'Recibe pagos automáticos'
-  },
-  {
-    icon: CheckCircle,
-    title: 'Evalúa clientes'
+    number: '3',
+    title: 'Entregas y cobras automáticamente',
+    icon: Banknote,
+    description: 'Subes el trabajo terminado dentro de la plataforma. Una vez entregado, el sistema libera tu dinero directo a tu cuenta. Sin pelear, ni rogar, ni perder tu tiempo.'
   }
 ]
 
@@ -27,74 +36,63 @@ export const Process = () => {
   return (
     <section className="py-12 md:py-16 lg:py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Layout horizontal: imagen a la izquierda, contenido a la derecha */}
-        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-          {/* Columna izquierda - Imagen */}
-          <motion.div
-            className="flex-1 flex justify-center lg:justify-start order-2 lg:order-1"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+        {/* Título y subtítulo */}
+        <div className="text-center mb-12">
+          <motion.h2
+            className={`${poppins.className} text-3xl md:text-4xl font-bold text-[#BADB3A] mb-4 scroll-mt-24`}
+            style={{ fontWeight: 700 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <img 
-              src="/images/Frame 752.png"
-              alt="Frame 752"
-              className="w-[280px] h-[224px] md:w-[350px] md:h-[280px] lg:w-[500px] lg:h-[400px] object-cover rounded-2xl lg:rounded-3xl"
-            />
-          </motion.div>
-
-          {/* Columna derecha - Contenido */}
-          <motion.div
-            className="flex-1 order-1 lg:order-2"
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            Tú pones las reglas
+          </motion.h2>
+          <motion.p
+            className={`${poppins.className} text-base md:text-lg text-white max-w-2xl mx-auto`}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
-            {/* Header */}
+            Olvídate de regatear. Así de simple funciona nuestro sistema:
+          </motion.p>
+        </div>
+
+        {/* Tres pasos */}
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {steps.map((step, index) => (
             <motion.div
-              className="text-center lg:text-left mb-12 lg:mb-16"
+              key={index}
+              className="flex flex-col items-center text-center"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
             >
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 lg:mb-6">
-                <span className="text-[#BADB3A]">Todas las herramientas</span> que necesitas para hacer crecer <span className="text-[#BADB3A]">tu negocio</span>
-              </h2>
-              <p className="text-base md:text-lg lg:text-xl text-gray-600 max-w-4xl mx-auto lg:mx-0">
-                Mantente al tanto de tus próximos trabajos en Tazzky. Chatea directamente con clientes, recibe pagos automáticamente y obtén soporte personalizado cuando lo necesites.
+              {/* Número en círculo */}
+              <div className="w-16 h-16 rounded-full bg-[#5a6938]/60 border-2 border-[#BADB3A] flex items-center justify-center mb-4">
+                <span className={`${poppins.className} text-2xl font-bold text-[#BADB3A]`}>
+                  {step.number}
+                </span>
+              </div>
+
+              {/* Título del paso */}
+              <h3 className={`${poppins.className} text-base md:text-lg font-semibold text-white mb-4`}>
+                {step.title}
+              </h3>
+
+              {/* Ícono grande */}
+              <div className="mb-4">
+                <step.icon className="w-16 h-16 text-[#BADB3A]" strokeWidth={1.5} />
+              </div>
+
+              {/* Descripción */}
+              <p className={`${poppins.className} text-sm text-gray-300 leading-relaxed`}>
+                {step.description}
               </p>
             </motion.div>
-
-            {/* Herramientas */}
-            <motion.div
-              className="flex flex-col gap-2 lg:gap-3"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              {tools.map((tool, index) => (
-                <motion.div
-                  key={index}
-                  className="text-center lg:text-left"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.1 * index }}
-                >
-                  <div className="flex justify-center lg:justify-start items-baseline gap-2">
-                    <tool.icon className="w-3 h-3 md:w-4 md:h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                    <h3 className="text-xs md:text-sm font-semibold text-gray-900">
-                      {tool.title}
-                    </h3>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
+          ))}
         </div>
       </div>
     </section>

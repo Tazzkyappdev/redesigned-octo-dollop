@@ -1,124 +1,109 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Button } from '../ui'
-import { 
-  MessageSquare, 
-  CreditCard, 
-  Star, 
-  MapPin, 
-  Calendar, 
-  Shield,
-  TrendingUp,
-  Users
-} from 'lucide-react'
+import { AlertTriangle, Shield } from 'lucide-react'
+import { RegistrationModal } from '../modals'
+import { Poppins } from 'next/font/google'
 
-const benefits = [
-  {
-    icon: MapPin,
-    title: 'Promociona tu negocio en un mercado global y local',
-    description: 'Conecta con clientes en tu área y construye una base de clientes local.'
-  },
-  {
-    icon: MessageSquare,
-    title: 'Envía cotizaciones y agenda trabajos',
-    description: 'Comunícate directamente con clientes y gestiona tu agenda desde la app.'
-  },
-  {
-    icon: CreditCard,
-    title: 'Recibe pagos en 7 días',
-    description: 'Pagos automáticos y seguros. Sin esperar meses por cobrar.'
-  },
-  {
-    icon: Star,
-    title: 'Revisa clientes',
-    description: 'Lee reseñas y calificaciones antes de aceptar trabajos.'
-  }
-]
-
-const tools = [
-  {
-    icon: Calendar,
-    title: 'Gestión de agenda',
-    description: 'Organiza todos tus trabajos pendientes en un solo lugar.'
-  },
-  {
-    icon: MessageSquare,
-    title: 'Chat directo',
-    description: 'Comunícate con clientes sin compartir tu número personal.'
-  },
-  {
-    icon: CreditCard,
-    title: 'Pagos automáticos',
-    description: 'Recibe pagos automáticamente una vez completado el trabajo.'
-  },
-  {
-    icon: Shield,
-    title: 'Soporte dedicado',
-    description: 'Equipo de soporte disponible cuando lo necesites.'
-  }
-]
-
-const stats = [
-  {
-    icon: TrendingUp,
-    value: '40%',
-    label: 'Más ganancias promedio'
-  },
-  {
-    icon: Users,
-    value: '3x',
-    label: 'Más clientes'
-  },
-  {
-    icon: Calendar,
-    value: '60%',
-    label: 'Menos tiempo de gestión'
-  }
-]
+const poppins = Poppins({
+  weight: ['400', '600', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export const Benefits = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   return (
     <section className="py-16 md:py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Layout horizontal: textos a la izquierda, imagen a la derecha */}
-        <div className="flex flex-col lg:flex-row items-center gap-12">
-          {/* Columna izquierda - Textos */}
-          <motion.div
-            className="flex-1 text-left"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+        {/* Título y subtítulo */}
+        <div className="text-center mb-12">
+          <motion.h2
+            className={`${poppins.className} text-3xl md:text-4xl font-bold text-[#BADB3A] mb-4 scroll-mt-24`}
+            style={{ fontWeight: 700 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              Obtén el trabajo que quieres, cuando lo quieres
-            </h2>
-            <p className="text-lg md:text-xl text-gray-600 max-w-3xl">
-              Tazzky conecta profesionales confiables con trabajos locales en minutos. 
-              Obtén rápidamente la información que necesitas, ve fotos y evalúa clientes antes de aceptar trabajos.
-            </p>
-          </motion.div>
+            Se acabó trabajar con miedo
+          </motion.h2>
+          <motion.p
+            className={`${poppins.className} text-base md:text-lg text-white max-w-2xl mx-auto`}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            El sistema tradicional en LATAM estaba roto. Construimos la infraestructura para arreglarlo.
+          </motion.p>
+        </div>
 
-          {/* Columna derecha - Imagen */}
+        {/* Tarjetas comparativas */}
+        <div className="grid md:grid-cols-2 gap-6 mb-10 max-w-5xl mx-auto">
+          {/* Tarjeta Roja - Problema */}
           <motion.div
-            className="flex-1 flex justify-center lg:justify-end"
-            initial={{ opacity: 0, x: 20 }}
+            className="bg-gradient-to-br from-red-900/90 to-red-950/90 rounded-2xl p-8 border border-red-800/50 shadow-xl"
+            initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            {/* Imagen de Unsplash sin marco */}
-            <img 
-              src="https://images.unsplash.com/photo-1672862273558-0608c644a41a?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Servicios Digitales"
-              className="w-[500px] h-[400px] object-cover rounded-2xl shadow-lg"
-            />
+            <div className="flex justify-center mb-6">
+              <div className="w-16 h-16 rounded-full bg-red-800/50 flex items-center justify-center">
+                <AlertTriangle className="w-8 h-8 text-red-300" />
+              </div>
+            </div>
+            <div className={`${poppins.className} space-y-4 text-white text-sm md:text-base font-semibold text-center`}>
+              <p>Ruegas por un anticipo del 50%.</p>
+              <p>Regalas el 20% de tus ingresos en comisiones abusivas.</p>
+              <p>Trabajas cruzando los dedos para que el cliente no desaparezca.</p>
+              <p>Estás completamente desprotegido ante estafas.</p>
+            </div>
+          </motion.div>
+
+          {/* Tarjeta Verde - Solución */}
+          <motion.div
+            className="bg-gradient-to-br from-[#5a6938]/90 to-[#4a5530]/90 rounded-2xl p-8 border border-[#6a7948]/50 shadow-xl"
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <div className="flex justify-center mb-6">
+              <div className="w-16 h-16 rounded-full bg-[#6a7948]/50 flex items-center justify-center">
+                <Shield className="w-8 h-8 text-[#BADB3A]" />
+              </div>
+            </div>
+            <div className={`${poppins.className} space-y-4 text-white text-sm md:text-base font-semibold text-center`}>
+              <p>El cliente paga por adelantado.</p>
+              <p>Pagas 0% de comisión (exclusivo en la Fase Beta).</p>
+              <p>Trabajas con la garantía de que el dinero ya está protegido.</p>
+              <p>Entregas el proyecto y recibes tu pago automáticamente.</p>
+            </div>
           </motion.div>
         </div>
 
+        {/* CTA Button */}
+        <motion.div
+          className="flex justify-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className={`${poppins.className} bg-[#BADB3A] hover:bg-[#A6C032] text-black font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-base`}
+          >
+            Reclamar mi 0% de Comisión
+          </button>
+        </motion.div>
       </div>
+
+      <RegistrationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   )
 }
