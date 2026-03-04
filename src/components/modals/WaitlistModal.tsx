@@ -14,7 +14,8 @@ export const WaitlistModal = ({ isOpen, onClose }: WaitlistModalProps) => {
 		nombre: '',
 		email: '',
 		telefono: '',
-		categoriaDeseada: ''
+		categoriaDeseada: '',
+		invitationCode: ''
 	})
 
 	const [isSubmitting, setIsSubmitting] = useState(false)
@@ -29,7 +30,7 @@ export const WaitlistModal = ({ isOpen, onClose }: WaitlistModalProps) => {
 	}
 
 	const resetForm = () => {
-		setFormData({ nombre: '', email: '', telefono: '', categoriaDeseada: '' })
+		setFormData({ nombre: '', email: '', telefono: '', categoriaDeseada: '', invitationCode: '' })
 		setSubmitError(null)
 		setSubmitSuccess(false)
 	}
@@ -52,6 +53,7 @@ export const WaitlistModal = ({ isOpen, onClose }: WaitlistModalProps) => {
 			const detalles: string[] = []
 			if (formData.telefono) detalles.push(`Teléfono: ${formData.telefono}`)
 			if (formData.categoriaDeseada) detalles.push(`Interés: ${formData.categoriaDeseada}`)
+			if (formData.invitationCode) detalles.push(`Código de Invitación: ${formData.invitationCode}`)
 
 			const result = await createLandingLead({
 				email: formData.email,
@@ -71,7 +73,7 @@ export const WaitlistModal = ({ isOpen, onClose }: WaitlistModalProps) => {
 			}
 
 			// Limpiar formulario inmediatamente después de éxito
-			setFormData({ nombre: '', email: '', telefono: '', categoriaDeseada: '' })
+			setFormData({ nombre: '', email: '', telefono: '', categoriaDeseada: '', invitationCode: '' })
 			setIsSubmitting(false)
 			setSubmitSuccess(true)
 			
@@ -209,6 +211,20 @@ export const WaitlistModal = ({ isOpen, onClose }: WaitlistModalProps) => {
 											disabled={isSubmitting}
 											className="w-full px-3 py-2.5 text-sm bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-[#BADB3A] focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
 											placeholder="Ej. Fontanería, Electricidad..."
+										/>
+									</div>
+
+									{/* Código de Invitación */}
+									<div>
+										<label className="block text-xs sm:text-sm font-medium text-gray-200 mb-1">¿Tienes un Código de Invitación? (Opcional)</label>
+										<input
+											type="text"
+											name="invitationCode"
+											value={formData.invitationCode}
+											onChange={handleChange}
+											disabled={isSubmitting}
+											className="w-full px-3 py-2.5 text-sm bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-[#BADB3A] focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+											placeholder="Ingresa tu código de invitación"
 										/>
 									</div>
 

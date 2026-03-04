@@ -16,6 +16,7 @@ const leadFormSchema = z.object({
   interest_type: z.enum(['client', 'professional']),
   category: z.string().optional(),
   message: z.string().optional(),
+  invitation_code: z.string().optional(),
   notification_preference: z.boolean(),
   terms_accepted: z.boolean().refine(val => val === true, 'Debes aceptar los términos')
 })
@@ -229,6 +230,14 @@ export const LeadForm = () => {
           {...register('message')}
           placeholder="Cuéntanos qué servicios te interesan o cualquier pregunta que tengas..."
           rows={3}
+        />
+
+        {/* Código de invitación */}
+        <Input
+          label="¿Tienes un Código de Invitación? (Opcional)"
+          {...register('invitation_code')}
+          error={errors.invitation_code?.message}
+          placeholder="Ingresa tu código de invitación"
         />
 
         {/* Preferencias de notificación */}

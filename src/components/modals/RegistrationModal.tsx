@@ -17,7 +17,8 @@ export const RegistrationModal = ({ isOpen, onClose }: RegistrationModalProps) =
     pais: '',
     estado: '',
     categoria: '',
-    categoriaOtra: ''
+    categoriaOtra: '',
+    invitationCode: ''
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -32,7 +33,8 @@ export const RegistrationModal = ({ isOpen, onClose }: RegistrationModalProps) =
       pais: '',
       estado: '',
       categoria: '',
-      categoriaOtra: ''
+      categoriaOtra: '',
+      invitationCode: ''
     })
     setSubmitError(null)
     setSubmitSuccess(false)
@@ -67,6 +69,7 @@ export const RegistrationModal = ({ isOpen, onClose }: RegistrationModalProps) =
       if (formData.pais) detalles.push(`País: ${formData.pais}`)
       if (formData.estado) detalles.push(`Estado: ${formData.estado}`)
       if (categoriaElegida) detalles.push(`Categoría: ${categoriaElegida}`)
+      if (formData.invitationCode) detalles.push(`Código de Invitación: ${formData.invitationCode}`)
 
       const result = await createLandingLead({
         email: formData.email,
@@ -91,7 +94,8 @@ export const RegistrationModal = ({ isOpen, onClose }: RegistrationModalProps) =
         pais: '',
         estado: '',
         categoria: '',
-        categoriaOtra: ''
+        categoriaOtra: '',
+        invitationCode: ''
       })
       setIsSubmitting(false)
       setSubmitSuccess(true)
@@ -329,6 +333,22 @@ export const RegistrationModal = ({ isOpen, onClose }: RegistrationModalProps) =
                     />
                   </div>
                 )}
+
+                {/* Código de Invitación */}
+                <div>
+                  <label htmlFor="invitationCode" className="block text-xs sm:text-sm font-medium text-gray-200 mb-1">
+                    ¿Tienes un Código de Invitación? (Opcional)
+                  </label>
+                  <input
+                    type="text"
+                    id="invitationCode"
+                    name="invitationCode"
+                    value={formData.invitationCode}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2.5 sm:py-2 text-sm bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-[#BADB3A] focus:border-transparent transition-all duration-200"
+                    placeholder="Ingresa tu código de invitación"
+                  />
+                </div>
 
                 {/* Botón de envío */}
                 <button

@@ -202,8 +202,7 @@ const schema = z
 		working_hours: z.string().min(3).max(200).optional().or(z.literal('')),
 		bank_account_holder: z.string().min(2).max(100).optional().or(z.literal('')),
 		clabe: z.string().regex(/^\d{18}$/).optional().or(z.literal('')),
-		email: z.string().email(),
-		terms_accepted: z.boolean().refine(v => v, { message: 'Debes aceptar los términos' }),
+		email: z.string().email(),		invitation_code: z.string().optional().or(z.literal('')),		terms_accepted: z.boolean().refine(v => v, { message: 'Debes aceptar los términos' }),
 		payment_only_tazzky: z.boolean().refine(v => v, { message: 'Debes aceptar los términos de pago' }).optional(),
 		no_off_platform_payment: z.boolean().refine(v => v, { message: 'Debes confirmar' }).optional(),
 	})
@@ -337,8 +336,11 @@ export const ProfessionalRegistrationForm = () => {
 						<div className="grid md:grid-cols-2 gap-4 mt-4">
 							<Input label="Especialidad principal *" placeholder="Ej. Electricista, Diseñador UI" {...register('specialty')} error={getErrorMessage(errors.specialty)} />
 							<Input label="Años de experiencia" type="number" min={0} max={70} {...register('years_experience')} error={getErrorMessage(errors.years_experience)} />
-						</div>
 					</div>
+					<div className="grid md:grid-cols-2 gap-4 mt-4">
+						<Input label="¿Tienes un Código de Invitación? (Opcional)" placeholder="Ingresa tu código de invitación" {...register('invitation_code')} error={getErrorMessage(errors.invitation_code)} />
+					</div>
+				</div>
 				)}
 
 				{section === 2 && (

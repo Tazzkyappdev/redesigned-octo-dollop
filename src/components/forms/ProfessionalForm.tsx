@@ -18,6 +18,7 @@ const professionalFormSchema = z.object({
   experience_years: z.number().min(0, 'Los años de experiencia no pueden ser negativos'),
   portfolio_url: z.string().url('Ingresa una URL válida').optional().or(z.literal('')),
   description: z.string().min(10, 'La descripción debe tener al menos 10 caracteres'),
+  invitation_code: z.string().optional(),
   availability: z.enum(['full-time', 'part-time']),
   terms_accepted: z.boolean().refine(val => val === true, 'Debes aceptar los términos')
 })
@@ -250,6 +251,14 @@ export const ProfessionalForm = () => {
           placeholder="Cuéntanos sobre los servicios que ofreces, tu experiencia y especialidades..."
           rows={4}
           required
+        />
+
+        {/* Código de invitación */}
+        <Input
+          label="¿Tienes un Código de Invitación? (Opcional)"
+          {...register('invitation_code')}
+          error={errors.invitation_code?.message}
+          placeholder="Ingresa tu código de invitación"
         />
 
         {/* Disponibilidad */}
