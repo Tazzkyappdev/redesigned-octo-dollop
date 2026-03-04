@@ -123,7 +123,6 @@ export const Hero = () => {
           muted
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ WebkitPlaysinline: 'true' }}
         >
           <source src="/VIDEOLANDING.mp4" type="video/mp4" />
         </video>
