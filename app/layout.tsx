@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { ClientRoot } from '../src/components/ClientRoot'
+import { Analytics } from '@vercel/analytics/next'
 
 export const metadata: Metadata = {
   title: 'Tazzky - Contrata servicios confiables en minutos',
@@ -54,6 +55,7 @@ export default function RootLayout({
         <ClientRoot>
           {children}
         </ClientRoot>
+        <Analytics />
       </body>
     </html>
   )
