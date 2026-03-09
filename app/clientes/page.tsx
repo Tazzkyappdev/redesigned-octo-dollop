@@ -38,6 +38,7 @@ const poppins = Poppins({
 export default function ClientesHome() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isProfessionalModalOpen, setIsProfessionalModalOpen] = useState(false)
+  const [occupiedSpots, setOccupiedSpots] = useState(15)
   const [isScrolled, setIsScrolled] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [chipStartIndex, setChipStartIndex] = useState(0)
@@ -52,7 +53,6 @@ export default function ClientesHome() {
 
   
 
-  const [categoryPage, setCategoryPage] = useState(0)
   const [openFaqIndex, setOpenFaqIndex] = useState(0)
   const faqItems = [
     {
@@ -112,6 +112,21 @@ export default function ClientesHome() {
   }, [])
 
   useEffect(() => {
+    const phaseStart = new Date('2026-03-08T00:00:00').getTime()
+    const updateOccupiedSpots = () => {
+      const now = Date.now()
+      const daysElapsed = Math.floor((now - phaseStart) / (1000 * 60 * 60 * 24))
+      const drops = Math.floor(Math.max(0, daysElapsed) / 5)
+      setOccupiedSpots(Math.max(0, 15 - drops))
+    }
+
+    updateOccupiedSpots()
+    const interval = setInterval(updateOccupiedSpots, 1000 * 60 * 60)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const x = (e.clientX / window.innerWidth) * 100
       const y = (e.clientY / window.innerHeight) * 100
@@ -147,14 +162,6 @@ export default function ClientesHome() {
     handler()
     window.addEventListener('resize', handler)
     return () => window.removeEventListener('resize', handler)
-  }, [])
-
-  // Auto-scroll del carrusel de categorías cada 5 segundos
-  useEffect(() => {
-    const id = setInterval(() => {
-      setCategoryPage((prev) => (prev + 1) % 2) // 2 páginas de categorías
-    }, 5000)
-    return () => clearInterval(id)
   }, [])
 
   // Detectar sección activa para cambiar menú automáticamente
@@ -338,10 +345,10 @@ export default function ClientesHome() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-center leading-tight mb-4"
             >
-              <span className="text-[#BADB3A]">Contrata servicios</span>{' '}
-              <span className="text-white">seguros,</span>
+              <span className="text-[#BADB3A]">Contrata talento</span>{' '}
+              <span className="text-white">freelance seguro,</span>
               <br />
-              <span className="text-white">rápidos y verificados</span>
+              <span className="text-white">rápido y verificado.</span>
             </motion.h1>
 
             <motion.p
@@ -350,7 +357,7 @@ export default function ClientesHome() {
               transition={{ duration: 0.5, delay: 0.15 }}
               className={`${poppins.className} text-gray-300 text-base md:text-lg font-semibold leading-relaxed mb-8 max-w-2xl mx-auto text-center`}
             >
-              Tazzky es la nueva plataforma para usuarios, freelancers y profesionales físicos. Un espacio donde el pago y el trabajo reciben protección mediante un sistema de garantía.
+              Ya sea que necesites desarrollo de software, diseño web o edición de video, en Tazzky encuentras expertos verificados. Tu pago está 100% protegido hasta que apruebas la entrega final.
             </motion.p>
 
             {/* Imagen principal de la app debajo del subtítulo */}
@@ -360,7 +367,7 @@ export default function ClientesHome() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="w-full flex justify-center mt-6 mb-10"
             >
-              <Image src="/images/homeapp.png" alt="Home Tazzky" width={320} height={160} className="w-full max-w-[320px] h-auto object-contain" />
+              <Image src="/images/digitales2.png" alt="Home Tazzky" width={320} height={160} className="w-full max-w-[320px] h-auto object-contain" />
             </motion.div>
 
             {/* CTA principal */}
@@ -377,14 +384,16 @@ export default function ClientesHome() {
                 >
                   Unirse a la lista de espera
                 </button>
-                <Link href="/profesionales" className="inline-block" aria-label="Ir a la página para profesionales">
-                  <button
-                    className={`${poppins.className} inline-flex items-center justify-center gap-3 bg-[#BADB3A] text-black font-semibold px-4 py-2.5 rounded-full shadow-lg transition-colors min-w-[220px] text-sm hover:bg-[#A6C032]`}
-                  >
-                    <span>Únete como profesional</span>
-                  </button>
+                <Link
+                  href="/profesionales"
+                  className={`${poppins.className} inline-flex items-center justify-center gap-3 bg-[#BADB3A] text-black font-semibold px-4 py-2.5 rounded-full shadow-lg transition-colors min-w-[220px] text-sm hover:bg-[#a7c733]`}
+                >
+                  Únete como profesional
                 </Link>
               </div>
+              <p className={`${poppins.className} mt-3 text-xs text-gray-400 max-w-4xl mx-auto text-center leading-relaxed`}>
+                {occupiedSpots}/100 lugares ocupados. Apertura de Fase 1 (Talento Digital). Solo aceptaremos a los primeros 100 usuarios y profesionales fundadores.
+              </p>
             </motion.div>
 
             
@@ -426,7 +435,7 @@ export default function ClientesHome() {
                 Olvida el miedo a dar anticipos a ciegas o a que desaparezcan con tu dinero. Guardamos el dinero de forma segura al inicio y solo se libera cuando el trabajo está listo. Tu pago está garantizado.
               </p>
             </div>
-            <div className="flex justify-end -translate-y-32">
+            <div className="flex justify-end -translate-y-24 md:-translate-y-52">
               <Image
                 src="/images/pagosengarantiahome.png"
                 alt="Pagos en Garantía"
@@ -454,13 +463,13 @@ export default function ClientesHome() {
                 Eliminamos el anonimato tóxico de las redes sociales. Validamos la identidad de cada usuario mediante tecnología avanzada para que sepas exactamente con quién haces negocio.
               </p>
             </div>
-            <div className="flex justify-end -translate-y-20">
+            <div className="flex justify-end translate-y-0 md:-translate-y-20">
               <Image
-                src="/images/identidadverificada1.png"
+                src="/images/IDENTIDADV2.png"
                 alt="Identidad Verificada"
                 width={320}
                 height={200}
-                className="w-full max-w-[320px] h-auto object-contain"
+                className="w-3/4 md:w-full max-w-[320px] h-auto object-contain"
               />
             </div>
           </div>
@@ -483,7 +492,7 @@ export default function ClientesHome() {
 
             <div className="flex justify-end">
               <Image
-                src="/images/Claridad%20Absoluta.png"
+                src="/images/claridad2.png"
                 alt="Claridad Absoluta"
                 width={320}
                 height={400}
@@ -525,12 +534,7 @@ export default function ClientesHome() {
       </motion.div>
 
       {/* Sección Categorías */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-        className="w-full py-6 md:py-8 -translate-y-120"
-      >
+      <div className="w-full py-6 md:py-8 -translate-y-120">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 id="categorias" className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#BADB3A] mb-3 text-center scroll-mt-24">
             CATEGORÍAS
@@ -539,114 +543,38 @@ export default function ClientesHome() {
             Encuentra las categorías que necesitas
           </p>
 
-          <div className="relative">
-            {(() => {
-              const categories = [
-                { title: 'Artes gráficas y diseño', src: '/images/artesgraficascate.jpg' },
-                { title: 'Programación y tecnología', src: '/images/programacionyteccat.jpg' },
-                { title: 'Marketing Digital', src: '/images/marketingcat.jpg' },
-                { title: 'Video y animación', src: '/images/videoyanimacioncat.jpg' },
-                { title: 'Escritura y traducción', src: '/images/escrituraytraducat.jpg' },
-                { title: 'Música y audio', src: '/images/musicayaudiocat.jpg' },
-                { title: 'Negocios', src: '/images/negocioscat.jpg' },
-                { title: 'Salud y bienestar', src: '/images/saludcat1.jpg' },
-                { title: 'Mantenimiento del hogar', src: '/images/matenimientohogarcate.jpg' },
-                { title: 'Reparación de automóviles y motos', src: '/images/reparacioncat.jpg' },
-                { title: 'Belleza y cuidado personal', src: '/images/bellezaycuidadcat.jpg' },
-                { title: 'Eventos y entretenimiento', src: '/images/eventoscat.jpg' },
-                { title: 'Cuidado de mascotas', src: '/images/cuidadomascotas.jpg' },
-                { title: 'Servicios profesionales', src: '/images/serviciosprof.jpg' },
-                { title: 'Fotografía', src: '/images/fotografiacat.jpg' },
-              ]
-              const categoriesPerPage = 8
-              const totalPages = Math.ceil(categories.length / categoriesPerPage)
-              const currentCategories = categories.slice(
-                categoryPage * categoriesPerPage,
-                (categoryPage + 1) * categoriesPerPage
-              )
-              
-              return (
-                <>
-                  <div className="relative">
-                    {/* Left Arrow */}
-                    <button
-                      type="button"
-                      onClick={() => setCategoryPage((p) => (p - 1 + totalPages) % totalPages)}
-                      className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 md:-translate-x-12 z-10 items-center justify-center w-10 h-10 rounded-full border border-[#BADB3A]/40 text-[#BADB3A] hover:bg-[#BADB3A] hover:text-black transition"
-                      aria-label="Anterior"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                      </svg>
-                    </button>
-
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        initial={{ opacity: 0, x: 40 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -40 }}
-                        transition={{ duration: 0.4 }}
-                        key={`categories-page-${categoryPage}`}
-                        className="grid grid-cols-2 md:grid-cols-4 gap-6"
-                      >
-                      {currentCategories.map((cat, idx) => (
-                        <motion.div
-                          key={idx}
-                          initial={{ opacity: 0, y: 12 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.3, delay: 0.05 * idx }}
-                          className="group relative overflow-hidden rounded-2xl cursor-pointer"
-                        >
-                          <div className="relative aspect-square w-full">
-                            <Image
-                              src={cat.src}
-                              alt={cat.title}
-                              fill
-                              className="object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
-                          </div>
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                          <div className="absolute bottom-0 left-0 right-0 p-4">
-                            <p className="text-white font-semibold text-sm md:text-base">{cat.title}</p>
-                          </div>
-                        </motion.div>
-                      ))}
-                      </motion.div>
-                    </AnimatePresence>
-
-                    {/* Right Arrow */}
-                    <button
-                      type="button"
-                      onClick={() => setCategoryPage((p) => (p + 1) % totalPages)}
-                      className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 md:translate-x-12 z-10 items-center justify-center w-10 h-10 rounded-full border border-[#BADB3A]/40 text-[#BADB3A] hover:bg-[#BADB3A] hover:text-black transition"
-                      aria-label="Siguiente"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </button>
-                  </div>
-
-                  {/* Navigation Dots - Centered Below */}
-                  <div className="flex items-center justify-center gap-2 mt-8">
-                    {Array.from({ length: totalPages }).map((_, i) => (
-                      <button
-                        key={i}
-                        type="button"
-                        onClick={() => setCategoryPage(i)}
-                        className={`h-2 w-2 rounded-full transition-colors ${
-                          i === categoryPage ? 'bg-[#BADB3A]' : 'bg-[#BADB3A]/30'
-                        }`}
-                        aria-label={`Página ${i + 1}`}
-                      />
-                    ))}
-                  </div>
-                </>
-              )
-            })()}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { title: 'Artes gráficas y diseño', src: '/images/artesgraficascate.jpg' },
+              { title: 'Programación y tecnología', src: '/images/programacionyteccat.jpg' },
+              { title: 'Marketing Digital', src: '/images/marketingcat.jpg' },
+              { title: 'Video y animación', src: '/images/videoyanimacioncat.jpg' },
+              { title: 'Escritura y traducción', src: '/images/escrituraytraducat.jpg' },
+              { title: 'Música y audio', src: '/images/musicayaudiocat.jpg' },
+              { title: 'Negocios', src: '/images/negocioscat.jpg' },
+              { title: 'Crecimiento personal', src: '/images/crecimientopersonal.jpg' },
+            ].map((cat, idx) => (
+              <div
+                key={idx}
+                className="group relative overflow-hidden rounded-2xl cursor-pointer"
+              >
+                <div className="relative aspect-square w-full">
+                  <Image
+                    src={cat.src}
+                    alt={cat.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <p className="text-white font-semibold text-sm md:text-base">{cat.title}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Sección MUNDO PRO */}
       <motion.div
@@ -667,13 +595,13 @@ export default function ClientesHome() {
                 <span className="text-[#BADB3A]">Sin trabajar gratis, sin abusos y sin altas comisiones.</span>
               </h3>
               <p className="text-gray-300 text-base md:text-lg mb-6 max-w-md">
-                Tazzky es la herramienta definitiva para freelancers y contratistas que buscan formalizar sus ventas, asegurar su dinero desde el día uno y escapar de las plataformas globales que castigan su trabajo con tarifas excesivas.
+                Tazzky es la herramienta definitiva para freelancers  que buscan formalizar sus ventas, asegurar su dinero desde el día uno y escapar de las plataformas globales que castigan su trabajo con tarifas excesivas.
               </p>
               <button
                 onClick={() => setIsProfessionalModalOpen(true)}
-                className={`${poppins.className} inline-flex items-center justify-center bg-[#BADB3A] text-black font-semibold px-6 py-2.5 rounded-full shadow-lg transition-colors hover:bg-[#A6C032]`}
+                className={`${poppins.className} inline-flex items-center justify-center bg-white text-black font-semibold px-6 py-2.5 rounded-full shadow-lg transition-colors hover:bg-gray-100`}
               >
-                Únete como profesional
+                Unirme a la Beta Cerrada
               </button>
             </div>
             <div className="hidden md:flex justify-end translate-y-4">
@@ -732,7 +660,7 @@ export default function ClientesHome() {
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-12">
             <div className="flex justify-center md:justify-start">
               <Image
-                src="/images/Tusservicios1.png"
+                src="/images/destacainform2.png"
                 alt="Tus servicios"
                 width={340}
                 height={420}
@@ -764,7 +692,7 @@ export default function ClientesHome() {
               Acceso exclusivo: Solo 100 lugares sin comisiones.
             </h3>
             <p className={`${poppins.className} text-white text-base md:text-lg leading-relaxed mb-8 font-bold`}>
-              Únete a la lista como "Profesional Fundador". Los primeros 100 profesionales en registrarse operarán con 0% de comisión en sus primeros cobros y asegurarán su insignia VIP de por vida.
+              Los primeros 100 profesionales en unirse obtendrán 0% de comisión durante sus primeros 3 meses. Una vez llenos los cupos, aplicará la tasa estándar.
             </p>
             <button
               onClick={() => setIsProfessionalModalOpen(true)}

@@ -27,7 +27,7 @@ export const Steps = () => {
             className={`${poppins.className} text-2xl md:text-3xl lg:text-4xl font-bold text-[#BADB3A] scroll-mt-24`}
             style={{ fontWeight: 700 }}
           >
-            Hecho para los que crean y los que reparan
+            Hecho para los talentos digitales
           </h2>
         </motion.div>
 
@@ -56,38 +56,84 @@ export const Steps = () => {
             </h3>
             <p className={`${poppins.className} text-base md:text-lg text-gray-300`}>
               Tu código y tus diseños valen. Cero clientes fantasma. Cobras el 100% al enviar tu archivo.
+              Trabaja con acuerdos claros, tiempos definidos y pagos protegidos desde el inicio para enfocarte en crear,
+              crecer tu portafolio y escalar tus ingresos con mayor confianza.
             </p>
           </div>
         </motion.div>
 
-        {/* Segunda fila: Texto izquierda, imagen derecha */}
         <motion.div
-          className="grid md:grid-cols-2 gap-8 items-center"
+          className="text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.25 }}
         >
-          {/* Texto izquierda */}
-          <div className="space-y-4 order-2 md:order-1">
+          <h3
+            id="herramientas"
+            className={`${poppins.className} text-2xl md:text-3xl lg:text-4xl font-bold text-[#BADB3A] scroll-mt-24`}
+            style={{ fontWeight: 700 }}
+          >
+            Todas las herramientas que necesitas para hacer crecer tu negocio
+          </h3>
+        </motion.div>
+
+        <motion.div
+          className="grid md:grid-cols-2 gap-8 items-center mt-10"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <div className="relative w-full h-80 md:h-[26rem] lg:h-[30rem]">
+            <Image
+              src="/images/tunegocio.png"
+              alt="Tu negocio centralizado"
+              fill
+              className="object-contain"
+            />
+          </div>
+
+          <div className="space-y-4">
             <h3 className={`${poppins.className} text-2xl md:text-3xl font-bold text-white`} style={{ fontWeight: 700 }}>
-              Profesionales Locales y Físicos
+              Tu negocio, 100% centralizado.
             </h3>
             <p className={`${poppins.className} text-base md:text-lg text-gray-300`}>
-              Tu mano de obra y tu tiempo se respetan. El cliente deposita la garantía antes de que salgas de tu casa o taller.
+              Controla tus ganancias, visitas y pedidos en tiempo real. Ten el control total de tu crecimiento.
+              Tazzky te da un panel de control profesional para gestionar tus servicios activos, monitorear tus
+              ganancias retenidas y organizar tus entregas desde un solo lugar.
+            </p>
+          </div>
+        </motion.div>
+
+        <motion.div
+          className="grid md:grid-cols-2 gap-8 items-center mt-10"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.35 }}
+        >
+          <div className="space-y-4 order-2 md:order-1">
+            <h3 className={`${poppins.className} text-2xl md:text-3xl font-bold text-white`} style={{ fontWeight: 700 }}>
+              Tus servicios, tus reglas.
+            </h3>
+            <p className={`${poppins.className} text-base md:text-lg text-gray-300`}>
+              Define exactamente qué incluye tu tarifa con entregables por escrito. Si el cliente te pide
+              modificaciones extra fuera del acuerdo original, el sistema te permite cobrar ese excedente sin
+              fricciones. Tu tiempo vale, protégelo.
             </p>
           </div>
 
-          {/* Imagen FISICOLAND.png */}
-          <div className="relative w-full h-64 md:h-80 lg:h-96 order-1 md:order-2">
+          <div className="relative w-full h-80 md:h-[26rem] lg:h-[30rem] order-1 md:order-2">
             <Image
-              src="/images/FISICOLAND.png"
-              alt="Profesionales Locales"
+              src="/images/CENTRALIZADO.png"
+              alt="Tus servicios centralizados"
               fill
               className="object-contain"
             />
           </div>
         </motion.div>
+
       </div>
     </section>
   )

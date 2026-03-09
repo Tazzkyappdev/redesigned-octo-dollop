@@ -20,8 +20,8 @@ export const CTASection = () => {
 
   return (
     <section className="py-0 relative overflow-hidden">
-      {/* Verde Tazzky a Negro gradient */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#BADB3A] via-[#9AC420] to-black"></div>
+      {/* Fondo móvil verde Tazzky; gradiente original en md+ */}
+      <div className="absolute inset-0 bg-[#BADB3A] md:bg-gradient-to-r md:from-[#BADB3A] md:via-[#9AC420] md:to-black"></div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
@@ -50,13 +50,13 @@ export const CTASection = () => {
               transition={{ duration: 0.5, delay: 0.1 }}
             >
               <h2
-                className={`${poppins.className} text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4`}
+                className={`${poppins.className} text-3xl md:text-4xl lg:text-5xl font-bold text-black md:text-white leading-tight mb-4`}
                 style={{ fontWeight: 700 }}
               >
                 Ofrece tus servicios y haz crecer tu negocio
               </h2>
               <p
-                className={`${poppins.className} text-base md:text-lg text-white leading-relaxed opacity-95`}
+                className={`${poppins.className} text-base md:text-lg text-black md:text-white leading-relaxed opacity-95`}
               >
                 Conecta con clientes locales y globales, gestiona tus servicios y recibe pagos de forma segura. Únete a la comunidad de profesionales de Tazzky.
               </p>
@@ -79,7 +79,7 @@ export const CTASection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className={`${poppins.className} text-xs md:text-sm text-white/85 leading-relaxed max-w-sm`}
+              className={`${poppins.className} text-xs md:text-sm text-black/80 md:text-white/85 leading-relaxed max-w-sm`}
             >
               El 0% de comisión es exclusivo para nuestros primeros Profesionales Fundadores. Después de esta fase, nuestra comisión será justa y transparente, muy por debajo del 20% que cobra la competencia.
             </motion.p>

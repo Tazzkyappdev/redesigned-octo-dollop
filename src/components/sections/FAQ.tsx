@@ -40,7 +40,7 @@ const faqs = [
   {
     id: 6,
     question: '¿Esto funciona si ofrezco servicios físicos o reparaciones locales?',
-    answer: 'Totalmente. Ya sea que programes software o repares instalaciones eléctricas, el sistema es el mismo: tú defines tus paquetes, tus precios y tu zona de cobertura. El cliente fondea el pago antes de que salgas de tu casa o taller, asegurando tu tiempo y traslados.'
+    answer: 'Sí, también está pensado para servicios físicos y reparaciones locales. En esta etapa inicial estamos enfocados en talento digital, y en la segunda fase quedarán integrados formalmente los servicios físicos dentro de la plataforma. La lógica de protección se mantiene: tú defines tus paquetes, tus precios y tu zona de cobertura, y el cliente fondea el pago para proteger tu tiempo y traslados.'
   }
 ]
 
