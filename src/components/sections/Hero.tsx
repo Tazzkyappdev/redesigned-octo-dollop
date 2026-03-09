@@ -115,14 +115,17 @@ export const Hero = () => {
 
   return (
     <section id="hero" className="relative w-full min-h-screen overflow-hidden flex flex-col">
-      {/* Animated GIF Background */}
+      {/* Video Background */}
       <div className="absolute inset-0 w-full h-full">
-        <img
-          src="/VIDEOLANDING.gif"
-          alt=""
-          aria-hidden="true"
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
           className="absolute inset-0 w-full h-full object-cover"
-        />
+        >
+          <source src="/VIDEOLANDING (1).mp4" type="video/mp4" />
+        </video>
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black/50"></div>
       </div>
