@@ -81,7 +81,9 @@ export const RegistrationModal = ({ isOpen, onClose }: RegistrationModalProps) =
       })
 
       if (!result.success) {
-        const errorMsg = typeof result.error === 'string' ? result.error : 'No pudimos guardar tu registro. Intenta de nuevo en unos minutos.'
+        const errorMsg = 'error' in result && typeof result.error === 'string'
+          ? result.error
+          : 'No pudimos guardar tu registro. Intenta de nuevo en unos minutos.'
         setSubmitError(errorMsg)
         setIsSubmitting(false)
         return

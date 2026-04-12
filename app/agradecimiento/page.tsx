@@ -1,14 +1,14 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useMemo } from 'react'
+import { Suspense, useEffect, useMemo } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Footer } from '@/src/components/layout'
 import { formatCurrencyAmount, normalizeCurrency } from '@/src/lib/currency'
 
 const WHATSAPP_BASE_URL = 'https://wa.me/525661306651'
 
-export default function AgradecimientoPage() {
+function AgradecimientoContent() {
   const searchParams = useSearchParams()
 
   const gig = searchParams.get('gig') ?? 'Servicio'
@@ -71,5 +71,24 @@ export default function AgradecimientoPage() {
 
       <Footer />
     </main>
+  )
+}
+
+export default function AgradecimientoPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen bg-[#000000] text-white">
+          <section className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+            <div className="rounded-3xl border border-zinc-800 bg-[#111111] p-6 sm:p-10">
+              <p className="text-base text-zinc-200">Cargando tu resumen...</p>
+            </div>
+          </section>
+          <Footer />
+        </main>
+      }
+    >
+      <AgradecimientoContent />
+    </Suspense>
   )
 }
