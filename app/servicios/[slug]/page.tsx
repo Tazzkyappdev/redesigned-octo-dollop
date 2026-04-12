@@ -90,6 +90,14 @@ interface GigDetailView {
   portfolioItems: PortfolioItem[]
 }
 
+type LightboxGallery = 'gig' | 'portfolio'
+
+interface LightboxState {
+  isOpen: boolean
+  gallery: LightboxGallery
+  index: number
+}
+
 function normalizeFeatureList(features: unknown): string[] {
   if (!Array.isArray(features)) return []
 
@@ -166,6 +174,11 @@ export default function GigDetailPage({ params }: PageProps) {
   const [selectedPortfolioIndex, setSelectedPortfolioIndex] = useState(0)
   const [linkCopied, setLinkCopied] = useState(false)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
+  const [lightbox, setLightbox] = useState<LightboxState>({
+    isOpen: false,
+    gallery: 'gig',
+    index: 0,
+  })
   const touchStartX = useRef<number | null>(null)
 
   useEffect(() => {
@@ -279,6 +292,21 @@ export default function GigDetailPage({ params }: PageProps) {
       .filter(({ index }) => index !== selectedPortfolioIndex)
   }, [gig, selectedPortfolioIndex])
 
+  const portfolioImages = useMemo(() => {
+    if (!gig) return []
+    return gig.portfolioItems.map((item) => item.image_url).filter(Boolean)
+  }, [gig])
+
+  const lightboxImages = useMemo(() => {
+    if (lightbox.gallery === 'gig') return galleryImages
+    return portfolioImages
+  }, [lightbox.gallery, galleryImages, portfolioImages])
+
+  const currentLightboxImage = useMemo(() => {
+    if (!lightbox.isOpen || lightboxImages.length === 0) return null
+    return lightboxImages[Math.min(lightbox.index, lightboxImages.length - 1)]
+  }, [lightbox, lightboxImages])
+
   const contractUrl = useMemo(() => {
     if (!gig || !selectedPackage) return '#'
 
@@ -319,6 +347,62 @@ export default function GigDetailPage({ params }: PageProps) {
       setLinkCopied(false)
     }
   }
+
+  const openLightbox = (gallery: LightboxGallery, index: number) => {
+    const images = gallery === 'gig' ? galleryImages : portfolioImages
+    if (images.length === 0) return
+
+    setLightbox({
+      isOpen: true,
+      gallery,
+      index: Math.max(0, Math.min(index, images.length - 1)),
+    })
+  }
+
+  const closeLightbox = () => {
+    setLightbox((current) => ({ ...current, isOpen: false }))
+  }
+
+  const goToPrevLightboxImage = () => {
+    setLightbox((current) => {
+      if (!current.isOpen || lightboxImages.length === 0) return current
+      return {
+        ...current,
+        index: current.index === 0 ? lightboxImages.length - 1 : current.index - 1,
+      }
+    })
+  }
+
+  const goToNextLightboxImage = () => {
+    setLightbox((current) => {
+      if (!current.isOpen || lightboxImages.length === 0) return current
+      return {
+        ...current,
+        index: current.index === lightboxImages.length - 1 ? 0 : current.index + 1,
+      }
+    })
+  }
+
+  useEffect(() => {
+    if (!lightbox.isOpen) return
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeLightbox()
+      }
+
+      if (event.key === 'ArrowLeft') {
+        goToPrevLightboxImage()
+      }
+
+      if (event.key === 'ArrowRight') {
+        goToNextLightboxImage()
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [lightbox.isOpen, lightboxImages.length])
 
   const goToPrevImage = () => {
     if (galleryImages.length === 0) return
@@ -415,7 +499,10 @@ export default function GigDetailPage({ params }: PageProps) {
                         <button
                           key={`${imageUrl}-${index}`}
                           type="button"
-                          onClick={() => setActiveImageIndex(index)}
+                          onClick={() => {
+                            setActiveImageIndex(index)
+                            openLightbox('gig', index)
+                          }}
                           className={`relative aspect-[4/3] overflow-hidden rounded-2xl border transition ${
                             activeImageIndex === index ? 'border-lime-300 ring-2 ring-lime-300/30' : 'border-zinc-800'
                           }`}
@@ -438,11 +525,18 @@ export default function GigDetailPage({ params }: PageProps) {
                     >
                       <div className="aspect-[4/3] w-full bg-black sm:aspect-[16/10]">
                         {galleryImages.length > 0 ? (
-                          <img
-                            src={galleryImages[activeImageIndex]}
-                            alt={`${gig.title} imagen ${activeImageIndex + 1}`}
-                            className="h-full w-full object-cover"
-                          />
+                          <button
+                            type="button"
+                            onClick={() => openLightbox('gig', activeImageIndex)}
+                            className="h-full w-full cursor-zoom-in"
+                            aria-label="Abrir imagen en pantalla completa"
+                          >
+                            <img
+                              src={galleryImages[activeImageIndex]}
+                              alt={`${gig.title} imagen ${activeImageIndex + 1}`}
+                              className="h-full w-full object-cover"
+                            />
+                          </button>
                         ) : (
                           <div className="flex h-full w-full items-center justify-center text-sm text-zinc-500">
                             No hay imagen disponible
@@ -456,17 +550,17 @@ export default function GigDetailPage({ params }: PageProps) {
                             type="button"
                             onClick={goToPrevImage}
                             aria-label="Imagen anterior"
-                            className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-white/10 bg-black/70 p-2 text-white backdrop-blur transition hover:bg-black"
+                            className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full border border-white/10 bg-black/70 p-1.5 text-white backdrop-blur transition hover:bg-black sm:left-3 sm:p-2"
                           >
-                            <ChevronLeft size={18} />
+                            <ChevronLeft size={16} className="sm:h-[18px] sm:w-[18px]" />
                           </button>
                           <button
                             type="button"
                             onClick={goToNextImage}
                             aria-label="Siguiente imagen"
-                            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-white/10 bg-black/70 p-2 text-white backdrop-blur transition hover:bg-black"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full border border-white/10 bg-black/70 p-1.5 text-white backdrop-blur transition hover:bg-black sm:right-3 sm:p-2"
                           >
-                            <ChevronRight size={18} />
+                            <ChevronRight size={16} className="sm:h-[18px] sm:w-[18px]" />
                           </button>
                         </>
                       )}
@@ -478,7 +572,10 @@ export default function GigDetailPage({ params }: PageProps) {
                           <button
                             key={`${imageUrl}-${index}`}
                             type="button"
-                            onClick={() => setActiveImageIndex(index)}
+                            onClick={() => {
+                              setActiveImageIndex(index)
+                              openLightbox('gig', index)
+                            }}
                             className={`relative h-20 w-28 flex-shrink-0 overflow-hidden rounded-xl border transition ${
                               activeImageIndex === index ? 'border-lime-300 ring-2 ring-lime-300/30' : 'border-zinc-800'
                             }`}
@@ -577,7 +674,14 @@ export default function GigDetailPage({ params }: PageProps) {
                       <article className="grid gap-4 sm:gap-5 md:grid-cols-[320px_minmax(0,1fr)] lg:grid-cols-[360px_minmax(0,1fr)]">
                         <div>
                           <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-900">
-                            <img src={selectedPortfolioItem.image_url} alt={selectedPortfolioItem.title} className="h-full w-full object-cover" />
+                            <button
+                              type="button"
+                              onClick={() => openLightbox('portfolio', selectedPortfolioIndex)}
+                              className="h-full w-full cursor-zoom-in"
+                              aria-label="Abrir imagen del portfolio en pantalla completa"
+                            >
+                              <img src={selectedPortfolioItem.image_url} alt={selectedPortfolioItem.title} className="h-full w-full object-cover" />
+                            </button>
                           </div>
                         </div>
 
@@ -611,7 +715,10 @@ export default function GigDetailPage({ params }: PageProps) {
                               <button
                                 key={item.id}
                                 type="button"
-                                onClick={() => setSelectedPortfolioIndex(index)}
+                                onClick={() => {
+                                  setSelectedPortfolioIndex(index)
+                                  openLightbox('portfolio', index)
+                                }}
                                 className="h-14 w-16 flex-shrink-0 overflow-hidden rounded-xl border border-zinc-700 transition hover:border-lime-300/70 sm:h-16 sm:w-20"
                               >
                                 <img src={item.image_url} alt={item.title} className="h-full w-full object-cover" />
@@ -789,6 +896,59 @@ export default function GigDetailPage({ params }: PageProps) {
                 >
                   <MessageCircle size={16} />
                 </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {lightbox.isOpen && currentLightboxImage && (
+          <div
+            className="fixed inset-0 z-[120] flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm"
+            onClick={closeLightbox}
+          >
+            <div
+              className="relative flex h-full w-full max-w-7xl items-center justify-center"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={closeLightbox}
+                className="absolute right-2 top-2 z-10 inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-black/70 text-white transition hover:border-lime-300/50 hover:text-lime-200 sm:right-4 sm:top-4"
+                aria-label="Cerrar pantalla completa"
+              >
+                <X size={28} />
+              </button>
+
+              {lightboxImages.length > 1 && (
+                <button
+                  type="button"
+                  onClick={goToPrevLightboxImage}
+                  className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/20 bg-black/70 p-2 text-white transition hover:border-lime-300/50 hover:text-lime-200 sm:left-4 sm:p-3"
+                  aria-label="Imagen anterior"
+                >
+                  <ChevronLeft size={22} className="sm:h-7 sm:w-7" />
+                </button>
+              )}
+
+              <img
+                src={currentLightboxImage}
+                alt="Vista ampliada"
+                className="max-h-[88vh] w-auto max-w-full rounded-xl object-contain"
+              />
+
+              {lightboxImages.length > 1 && (
+                <button
+                  type="button"
+                  onClick={goToNextLightboxImage}
+                  className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/20 bg-black/70 p-2 text-white transition hover:border-lime-300/50 hover:text-lime-200 sm:right-4 sm:p-3"
+                  aria-label="Siguiente imagen"
+                >
+                  <ChevronRight size={22} className="sm:h-7 sm:w-7" />
+                </button>
+              )}
+
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full border border-white/10 bg-black/70 px-3 py-1 text-xs font-semibold text-zinc-200 sm:bottom-5">
+                {lightbox.index + 1} / {lightboxImages.length}
               </div>
             </div>
           </div>
