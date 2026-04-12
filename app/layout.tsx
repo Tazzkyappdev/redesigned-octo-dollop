@@ -1,7 +1,14 @@
 import type { Metadata, Viewport } from 'next'
+import { Poppins } from 'next/font/google'
 import './globals.css'
 import { ClientRoot } from '../src/components/ClientRoot'
 import { Analytics } from '@vercel/analytics/next'
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'Tazzky - Contrata servicios confiables en minutos',
@@ -51,7 +58,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className="antialiased font-sf-pro" suppressHydrationWarning>
+      <body className={`${poppins.className} antialiased`} suppressHydrationWarning>
         <ClientRoot>
           {children}
         </ClientRoot>

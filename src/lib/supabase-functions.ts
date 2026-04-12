@@ -1,4 +1,4 @@
-import { supabase } from './supabase'
+import { supabase, isSupabaseConfigured } from './supabase'
 import type { 
   LandingLead, 
   ProfessionalApplication
@@ -21,6 +21,20 @@ interface NormalizedError {
   details: string | null
 }
 
+const missingSupabaseError = {
+  success: false,
+  error: 'Missing Supabase environment variables'
+}
+
+function getSupabaseClientOrFail(functionName: string) {
+  if (!isSupabaseConfigured || !supabase) {
+    console.error(`${functionName}: Missing Supabase environment variables`)
+    return null
+  }
+
+  return supabase
+}
+
 interface ProfessionalRegistrationData {
   first_name: string
   last_name: string
@@ -41,7 +55,10 @@ interface ProfessionalRegistrationData {
 
 export async function createLandingLead(data: Omit<LandingLead, 'id' | 'created_at'>) {
   try {
-    const response = await supabase
+    const client = getSupabaseClientOrFail('createLandingLead')
+    if (!client) return missingSupabaseError
+
+    const response = await client
       .from('landing_leads')
       .insert([data])
 
@@ -75,7 +92,10 @@ export async function createLandingLead(data: Omit<LandingLead, 'id' | 'created_
 
 export async function getLandingLeads() {
   try {
-    const { data: leads, error } = await supabase
+    const client = getSupabaseClientOrFail('getLandingLeads')
+    if (!client) return missingSupabaseError
+
+    const { data: leads, error } = await client
       .from('landing_leads')
       .select('*')
       .order('created_at', { ascending: false })
@@ -98,8 +118,11 @@ export async function getLandingLeads() {
 
 export async function createProfessionalApplication(data: Omit<ProfessionalApplication, 'id' | 'created_at'>) {
   try {
+    const client = getSupabaseClientOrFail('createProfessionalApplication')
+    if (!client) return missingSupabaseError
+
     // Nota: No hacemos .select() tras el insert por la misma razón de RLS
-    const { error } = await supabase
+    const { error } = await client
       .from('professional_applications')
       .insert([data])
 
@@ -122,7 +145,10 @@ export async function createProfessionalApplication(data: Omit<ProfessionalAppli
 
 export async function getProfessionalApplications() {
   try {
-    const { data: applications, error } = await supabase
+    const client = getSupabaseClientOrFail('getProfessionalApplications')
+    if (!client) return missingSupabaseError
+
+    const { data: applications, error } = await client
       .from('professional_applications')
       .select('*')
       .order('created_at', { ascending: false })
@@ -145,7 +171,10 @@ export async function getProfessionalApplications() {
 
 export async function getServiceCategories() {
   try {
-    const { data: categories, error } = await supabase
+    const client = getSupabaseClientOrFail('getServiceCategories')
+    if (!client) return missingSupabaseError
+
+    const { data: categories, error } = await client
       .from('service_categories')
       .select('*')
       .eq('is_active', true)
@@ -165,7 +194,10 @@ export async function getServiceCategories() {
 
 export async function getServiceCategoryBySlug(slug: string) {
   try {
-    const { data: category, error } = await supabase
+    const client = getSupabaseClientOrFail('getServiceCategoryBySlug')
+    if (!client) return missingSupabaseError
+
+    const { data: category, error } = await client
       .from('service_categories')
       .select('*')
       .eq('slug', slug)
@@ -190,7 +222,10 @@ export async function getServiceCategoryBySlug(slug: string) {
 
 export async function getFeaturedProfessionals() {
   try {
-    const { data: professionals, error } = await supabase
+    const client = getSupabaseClientOrFail('getFeaturedProfessionals')
+    if (!client) return missingSupabaseError
+
+    const { data: professionals, error } = await client
       .from('professionals')
       .select('*')
       .eq('is_featured', true)
@@ -211,7 +246,10 @@ export async function getFeaturedProfessionals() {
 
 export async function getProfessionalsByCategory(category: string) {
   try {
-    const { data: professionals, error } = await supabase
+    const client = getSupabaseClientOrFail('getProfessionalsByCategory')
+    if (!client) return missingSupabaseError
+
+    const { data: professionals, error } = await client
       .from('professionals')
       .select('*')
       .eq('category', category)
@@ -235,7 +273,10 @@ export async function getProfessionalsByCategory(category: string) {
 
 export async function getFeaturedTestimonials() {
   try {
-    const { data: testimonials, error } = await supabase
+    const client = getSupabaseClientOrFail('getFeaturedTestimonials')
+    if (!client) return missingSupabaseError
+
+    const { data: testimonials, error } = await client
       .from('testimonials')
       .select('*')
       .eq('is_featured', true)
@@ -260,7 +301,10 @@ export async function getFeaturedTestimonials() {
 
 export async function getFAQByCategory(category: string = 'general') {
   try {
-    const { data: faqs, error } = await supabase
+    const client = getSupabaseClientOrFail('getFAQByCategory')
+    if (!client) return missingSupabaseError
+
+    const { data: faqs, error } = await client
       .from('faq')
       .select('*')
       .eq('category', category)
@@ -281,7 +325,10 @@ export async function getFAQByCategory(category: string = 'general') {
 
 export async function getAllFAQ() {
   try {
-    const { data: faqs, error } = await supabase
+    const client = getSupabaseClientOrFail('getAllFAQ')
+    if (!client) return missingSupabaseError
+
+    const { data: faqs, error } = await client
       .from('faq')
       .select('*')
       .eq('is_active', true)
@@ -306,22 +353,25 @@ export async function getAllFAQ() {
 
 export async function getLandingStats() {
   try {
+    const client = getSupabaseClientOrFail('getLandingStats')
+    if (!client) return missingSupabaseError
+
     // Contar leads totales
-    const { count: totalLeads, error: leadsError } = await supabase
+    const { count: totalLeads, error: leadsError } = await client
       .from('landing_leads')
       .select('*', { count: 'exact', head: true })
 
     if (leadsError) throw leadsError
 
     // Contar aplicaciones de profesionales
-    const { count: totalProfessionals, error: profError } = await supabase
+    const { count: totalProfessionals, error: profError } = await client
       .from('professional_applications')
       .select('*', { count: 'exact', head: true })
 
     if (profError) throw profError
 
     // Contar leads de clientes
-    const { count: clientLeads, error: clientError } = await supabase
+    const { count: clientLeads, error: clientError } = await client
       .from('landing_leads')
       .select('*', { count: 'exact', head: true })
       .eq('interest_type', 'client')
@@ -349,8 +399,11 @@ export async function getLandingStats() {
 
 export async function checkEmailExists(email: string) {
   try {
+    const client = getSupabaseClientOrFail('checkEmailExists')
+    if (!client) return { success: false, exists: false, error: 'Missing Supabase environment variables' }
+
     // Verificar en landing_leads
-    const { data: leadExists, error: leadError } = await supabase
+    const { data: leadExists, error: leadError } = await client
       .from('landing_leads')
       .select('email')
       .eq('email', email)
@@ -361,7 +414,7 @@ export async function checkEmailExists(email: string) {
     }
 
     // Verificar en professional_applications
-    const { data: profExists, error: profError } = await supabase
+    const { data: profExists, error: profError } = await client
       .from('professional_applications')
       .select('email')
       .eq('email', email)
@@ -414,7 +467,10 @@ export function generateSlug(text: string) {
 
 export async function createProfessionalRegistration(data: Omit<ProfessionalRegistrationData, 'id' | 'created_at' | 'updated_at'>) {
   try {
-    const { error } = await supabase
+    const client = getSupabaseClientOrFail('createProfessionalRegistration')
+    if (!client) return missingSupabaseError
+
+    const { error } = await client
       .from('professional_registrations')
       .insert([{ ...data, status: 'pending' }])
 

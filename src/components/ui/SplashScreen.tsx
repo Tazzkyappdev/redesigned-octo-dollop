@@ -7,27 +7,23 @@ export const SplashScreen: React.FC = () => {
   const [isVisible, setIsVisible] = React.useState(true)
 
   React.useEffect(() => {
-    let mounted = true
-    const interval = setInterval(() => {
+    const progressInterval = setInterval(() => {
       setProgress((prev) => {
-        const next = Math.min(prev + Math.random() * 8 + 4, 100)
+        const next = Math.min(prev + Math.random() * 10 + 6, 100)
         return next
       })
     }, 120)
 
-    const hideTimeout = setInterval(() => {
-      if (!mounted) return
-      if (progress >= 100) {
-        setIsVisible(false)
-      }
-    }, 150)
+    const hideTimeout = setTimeout(() => {
+      setProgress(100)
+      setIsVisible(false)
+    }, 1800)
 
     return () => {
-      mounted = false
-      clearInterval(interval)
-      clearInterval(hideTimeout)
+      clearInterval(progressInterval)
+      clearTimeout(hideTimeout)
     }
-  }, [progress])
+  }, [])
 
   if (!isVisible) return null
 
