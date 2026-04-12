@@ -1,12 +1,18 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { use, useEffect, useMemo, useRef, useState } from 'react'
 import { Check, ChevronLeft, ChevronRight, Clock3, ArrowLeft, Link2, MessageCircle, Twitter, X } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { Poppins } from 'next/font/google'
 import { isSupabaseConfigured, supabase } from '@/src/lib/supabase'
 import { Footer } from '@/src/components/layout'
 import { formatCurrencyAmount, normalizeCurrency, type SupportedCurrency } from '@/src/lib/currency'
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['500', '600'],
+})
 
 interface PageProps {
   params: Promise<{
@@ -150,7 +156,6 @@ function formatPortfolioDuration(duration: string | null): string {
 }
 
 export default function GigDetailPage({ params }: PageProps) {
-  const router = useRouter()
   const resolvedParams = use(params)
   const slug = resolvedParams.slug
   const [gig, setGig] = useState<GigDetailView | null>(null)
@@ -356,14 +361,13 @@ export default function GigDetailPage({ params }: PageProps) {
   return (
     <main className="min-h-dvh w-full bg-black text-white">
       <div className="mx-auto w-full max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
-        <button
-          type="button"
-          onClick={() => router.back()}
-          className="inline-flex items-center gap-2 rounded-full border border-zinc-800 bg-[#121212] px-4 py-2 text-sm font-semibold text-white transition hover:border-lime-300/60 hover:text-lime-200"
+        <Link
+          href="/servicios"
+          className={`${poppins.className} inline-flex items-center gap-2 text-sm font-semibold text-zinc-300 transition-colors hover:text-[#E2E66B]`}
         >
-          <ArrowLeft size={16} />
-          Volver
-        </button>
+          <span aria-hidden="true">←</span>
+          <span>Volver a servicios</span>
+        </Link>
       </div>
 
       {loading ? (
@@ -390,13 +394,12 @@ export default function GigDetailPage({ params }: PageProps) {
           <div className="rounded-2xl border border-red-500/40 bg-red-500/10 p-6 text-center text-red-200">
             <h1 className="text-2xl font-bold text-white">Servicio no disponible</h1>
             <p className="mt-2 text-sm text-red-200">{error}</p>
-            <button
-              type="button"
-              onClick={() => router.push('/servicios')}
+            <Link
+              href="/servicios"
               className="mt-6 inline-flex rounded-full bg-lime-300 px-5 py-2.5 text-sm font-bold text-black transition hover:bg-lime-200"
             >
               Volver al marketplace
-            </button>
+            </Link>
           </div>
         </div>
       ) : gig ? (
