@@ -8,6 +8,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Poppins } from 'next/font/google'
 import { Button } from '../../src/components/ui'
+import { ServiceRedirectPopup } from '../../src/components/ui/ServiceRedirectPopup'
 import { Briefcase } from 'lucide-react'
 import { Calendar } from 'lucide-react'
 import { Footer } from '../../src/components/layout'
@@ -832,6 +833,7 @@ export default function ClientesHome() {
 
       <WaitlistModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       <RegistrationModal isOpen={isProfessionalModalOpen} onClose={() => setIsProfessionalModalOpen(false)} />
+      <ServiceRedirectPopup />
       <Footer />
     </div>
   )

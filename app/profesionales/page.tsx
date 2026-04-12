@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Footer } from '../../src/components/layout'
 import { Hero, Benefits, Process, Steps, EarlyAccess, FAQ, CTASection } from '../../src/components/sections'
+import { ServiceRedirectPopup } from '../../src/components/ui/ServiceRedirectPopup'
 
 export default function Profesionales() {
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 })
@@ -33,6 +34,7 @@ export default function Profesionales() {
         <section id="faq"><FAQ /></section>
         <CTASection />
       </main>
+      <ServiceRedirectPopup />
       <Footer />
     </div>
   )
